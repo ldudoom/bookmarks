@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block main_container %}
+    <h3>Category "{{ category.name }}"</h3>
+    <hr/>
+    <div class="row">
+        <label class="col-2 text-right font-weight-bold" for="name">Category Name:</label>
+        <div class="col-10">{{ category.name }}</div>
+    </div>
+{% endblock %}
+
