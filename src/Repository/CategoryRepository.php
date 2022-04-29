@@ -27,7 +27,7 @@ class CategoryRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Category $entity, bool $flush = true): void
+    public function persist(Category $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {

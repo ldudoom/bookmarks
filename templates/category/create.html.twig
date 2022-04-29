@@ -2,20 +2,17 @@
 
 {% block main_container %}
     <h3>New Category</h3>
-    {% for type, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="alert alert-{{ type }} alert-dismissible fade show">
-                {{ message }}
-                <button type="close" class="close" data-dismiss="alert" aria-label="close" />
-            </div>
-        {% endfor %}
-    {% endfor %}
+    {% include 'commons/_messages.html.twig' %}
     <hr/>
     <form class="form" method="POST" action="{{ path('app_category_store') }}">
         <input type="hidden" name="_token" value="{{ csrf_token('category') }}">
         <div class="form-group row">
             <label class="col-2 text-right font-weight-bold" for="name">Category Name *</label>
             <input type="text" class="form-control col-10" value="" name="name" id="name" placeholder="Category name">
+        </div>
+        <div class="form-group row">
+            <label class="col-2 text-right font-weight-bold" for="color">Category Color *</label>
+            <input type="color" class="form-control col-10" value="" name="color" id="color" placeholder="Category color">
         </div>
         <button type="submit" class="btn btn-outline-primary">
             <i class="fa fa-trash"></i> Save Category

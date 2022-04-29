@@ -44,19 +44,15 @@ class CategoryController extends AbstractController
     #[Route('/store', name: 'app_category_store', methods: ['POST'])]
     public function store(Request $request): Response
     {
-        $name = $request->request->get('name', '');
-        if( ! $name){
-            $this->addFlash('warning', 'Please fulfill the "Category Name" field');
-            return $this->redirectToRoute('app_category_create', [], Response::HTTP_SEE_OTHER);
-        }
         if(  ! $this->isCsrfTokenValid('category', $request->request->get('_token')) ){
             $this->addFlash('danger', 'CSRF token is invalid.');
             return $this->redirectToRoute('app_category_create', [], Response::HTTP_SEE_OTHER);
         }
         $category = new Category();
-        $category->setName($name);
-        $this->_category->add($category);
-        $this->addFlash('success', 'Category added successfully');
+        $category->setName($request->request->get('name', ''));
+        $category->setColor($request->request->get('color', ''));
+        $this->_category->persist($category);
+        $this->addFlash('success', 'Category created successfully');
         return $this->redirectToRoute('app_category_list', [], Response::HTTP_SEE_OTHER);
     }
 
@@ -68,20 +64,20 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/update/{category}', name: 'app_category_update', methods: ['PUT', 'PATCH'])]
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\ORMException
+     */
+    #[Route('/update/{category}', name: 'app_category_update', methods: ['PUT', 'PATCH', 'POST'])]
     public function update(Request $request, Category $category): Response
     {
-        $name = $request->request->get('name', '');
-        if( ! $name){
-            $this->addFlash('warning', 'Please fulfill the "Category Name" field');
-            return $this->redirectToRoute('app_category_edit', [], Response::HTTP_SEE_OTHER);
-        }
         if(  ! $this->isCsrfTokenValid('category', $request->request->get('_token')) ){
             $this->addFlash('danger', 'CSRF token is invalid.');
             return $this->redirectToRoute('app_category_edit', [], Response::HTTP_SEE_OTHER);
         }
-        $category = new Category();
-        $category->setName($name);
+        $category->setName($request->request->get('name', ''));
+        $category->setColor($request->request->get('color', ''));
+        $this->_category->persist($category);
         $this->addFlash('success', 'Category updated successfully');
         return $this->redirectToRoute('app_category_list', [], Response::HTTP_SEE_OTHER);
     }
@@ -94,12 +90,16 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/destroy/{category}', name: 'app_category_destroy', methods: ['DELETE'])]
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\ORMException
+     */
+    #[Route('/destroy/{category}', name: 'app_category_destroy', methods: ['DELETE', 'POST'])]
     public function destroy(Category $category): Response
     {
         $this->_category->remove($category);
         $this->addFlash('success', 'Category "'.$category->getName().'" deleted successfully');
-        return $this->redirectToRoute('app_category_list', [], Response::HTTP_NO_CONTENT);
+        return $this->redirectToRoute('app_category_list', [], Response::HTTP_SEE_OTHER);
     }
 
 
