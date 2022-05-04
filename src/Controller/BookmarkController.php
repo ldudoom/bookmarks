@@ -30,6 +30,7 @@ class BookmarkController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $bookmarkRepository->add($bookmark);
+            $this->addFlash('success', 'Bookmark "'.$bookmark->getName().'" created successfully');
             return $this->redirectToRoute('app_bookmark_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -55,6 +56,7 @@ class BookmarkController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $bookmarkRepository->add($bookmark);
+            $this->addFlash('success', 'Bookmark "'.$bookmark->getName().'" updated successfully');
             return $this->redirectToRoute('app_bookmark_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -70,7 +72,7 @@ class BookmarkController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$bookmark->getId(), $request->request->get('_token'))) {
             $bookmarkRepository->remove($bookmark);
         }
-
+        $this->addFlash('success', 'Bookmark "'.$bookmark->getName().'" deleted successfully');
         return $this->redirectToRoute('app_bookmark_index', [], Response::HTTP_SEE_OTHER);
     }
 }

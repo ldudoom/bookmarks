@@ -4,7 +4,7 @@
 
 {% block main_container %}
     <h1>Edit Bookmark</h1>
-
+    {% include 'commons/_messages.html.twig' %}
     {{ include('bookmark/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a class="btn btn-outline-primary" href="{{ path('app_bookmark_index') }}">
