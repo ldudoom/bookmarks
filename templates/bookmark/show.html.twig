@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bookmark{% endblock %}
+
+{% block main_container %}
+    <h1>Bookmark</h1>
+
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ bookmark.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ bookmark.name }}</td>
+            </tr>
+            <tr>
+                <th>Url</th>
+                <td>{{ bookmark.url }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-outline-primary" href="{{ path('app_bookmark_index') }}">
+        <i class="oi oi-chevron-left"></i> back to list
+    </a>
+
+    <a class="btn btn-outline-primary" href="{{ path('app_bookmark_edit', {'id': bookmark.id}) }}">
+        <i class="oi oi-pencil"></i> edit
+    </a>
+    <hr />
+
+    {{ include('bookmark/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bookmark index{% endblock %}
+
+{% block main_container %}
+    <h1>Bookmark index</h1>
+
+    <table class="table table-bordered table-hover shadow">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Url</th>
+                <th>Category</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bookmark in bookmarks %}
+            <tr>
+                <td>{{ bookmark.id }}</td>
+                <td>{{ bookmark.name }}</td>
+                <td>{{ bookmark.url }}</td>
+                <td>{{ bookmark.category }}</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-info" href="{{ path('app_bookmark_show', {'id': bookmark.id}) }}">
+                        <i class="oi oi-magnifying-glass"></i> show
+                    </a>
+                    <a class="btn btn-sm btn-outline-primary" href="{{ path('app_bookmark_edit', {'id': bookmark.id}) }}">
+                       <i class="oi oi-pencil"></i> edit
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-outline-success" href="{{ path('app_bookmark_new') }}">
+       <i class="oi oi-plus"></i> Create new
+    </a>
+{% endblock %}
