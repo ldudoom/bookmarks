@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use App\Validator as AppAssert;
 use App\Repository\BookmarkRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: BookmarkRepository::class)]
 class Bookmark
 {
@@ -21,12 +23,22 @@ class Bookmark
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Url]
+    #[AppAssert\AccesibleUrl]
     private $url;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'bookmarks')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank]
     private $category;
+
+    #[ORM\Column(type: 'datetime')]
+    private $created_at;
+
+    #[ORM\PrePersist]
+    public function setDefaultCreatedValue(): void
+    {
+        $this->setCreatedAt(new \DateTime());
+    }
 
     public function getId(): ?int
     {
@@ -65,6 +77,18 @@ class Bookmark
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
 
         return $this;
     }
