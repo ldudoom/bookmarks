@@ -47,6 +47,16 @@ class BookmarkRepository extends ServiceEntityRepository
         }
     }
 
+    public function getBookmarksByCategoryName(string $categoryName)
+    {
+        return $this->createQueryBuilder('b')
+                    ->innerJoin('b.category', 'c')
+                    ->where('c.name = :categoryName')
+                    ->setParameter('categoryName', $categoryName)
+                    ->getQuery()
+                    ->getResult();
+    }
+
     // /**
     //  * @return Bookmark[] Returns an array of Bookmark objects
     //  */

@@ -5,6 +5,7 @@
         <h6 class="border-bottom border-gray pb-2 mb-0">
           My Bookmarks
         </h6>
+        {% include 'commons/_messages.html.twig' %}
         {% for bookmark in bookmarks %}
             <div class="media text-muted pt-3">
               <svg width="32" height="32" class="mr-2 rounded">
@@ -15,12 +16,24 @@
                   <div>
                     <a href="{{ bookmark.url }}" target="_blank">
                       <strong class="text-gray-dark">
-                          <i class="oi oi-bookmark"></i> {{ bookmark.name }}
+                          <i class="oi oi-bookmark"></i> {{ bookmark.name }} {{ bookmark.favorite ? '<i class="oi oi-star"></i>' : '' }}
                       </strong>
                     </a>
                     <span class="d-block">{{ bookmark.category }}</span>
+                    <span class="d-block">
+                        <small>
+                            {{ bookmark.createdAt|time }}
+                        </small>
+                    </span>
                   </div>
                   <div class="d-flex">
+                      <a
+                          href="#"
+                          class="favorite btn btn-sm {{ bookmark.favorite ? 'btn-success' : 'btn-outline-success' }}"
+                          data-url="{{ path('app_edit_favorite', {bookmark: bookmark.id}) }}"
+                      >
+                          <span class="oi oi-star" title="{{ bookmark.favorite ? 'Remove bookmark from favorites' : 'Add Bookmark to Favorites' }}" aria-hidden="true"></span>
+                      </a>&nbsp;&nbsp;&nbsp;
                       <a href="{{ path('app_bookmark_edit', { 'id': bookmark.id }) }}" class="btn btn-sm btn-outline-info">
                           <span class="oi oi-pencil" title="Edit Bookmark" aria-hidden="true"></span>
                       </a>&nbsp;&nbsp;&nbsp;
@@ -37,7 +50,7 @@
             </div>
         {% else %}
             <div class="alert alert-info">
-                <i class="oi oi-info"></i>
+                <div class="btn btn-outline-info"><i class="oi oi-info"></i></div>
                 <strong class="text-gray-dark">There are no bookmarks yet !</strong>
             </div>
         {% endfor %}

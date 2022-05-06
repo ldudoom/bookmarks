@@ -12,6 +12,7 @@
                 <th>Name</th>
                 <th>Url</th>
                 <th>Category</th>
+                <th>Is Favorite</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,6 +23,7 @@
                 <td>{{ bookmark.name }}</td>
                 <td>{{ bookmark.url }}</td>
                 <td>{{ bookmark.category }}</td>
+                <td>{{ bookmark.favorite ? 'SI' : 'NO' }}</td>
                 <td>
                     <a class="btn btn-sm btn-outline-info" href="{{ path('app_bookmark_show', {'id': bookmark.id}) }}">
                         <i class="oi oi-magnifying-glass"></i> show

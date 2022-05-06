@@ -1,3 +1,6 @@
+{% set appRoute = app.request.attributes.get('_route') %}
+{% set categoryName = app.request.attributes.get('categoryName') %}
+
 <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
   <a class="navbar-brand" href="{{ path('app_index') }}">My Bookmarks</a>
   <button class="navbar-toggler p-0 border-0"
@@ -8,15 +11,17 @@
 
   <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item"><a class="nav-link" href="#">All</a></li>
-      <li class="nav-item"><a class="nav-link" href="#">Category 1</a></li>
-      <li class="nav-item"><a class="nav-link" href="#">Category 2</a></li>
+      <li class="nav-item"><a class="nav-link {{ appRoute == 'app_favorites' ? 'active' : '' }}" href="{{ path('app_favorites') }}">Favorites</a></li>
+      <li class="nav-item"><a class="nav-link {{ appRoute != 'app_favorites' and categoryName == '' ? 'active' : '' }}" href="{{ path('app_index') }}">All</a></li>
+      {% for category in category_repository.findAll %}
+        <li class="nav-item"><a class="nav-link {{ categoryName == category.name ? 'active' : '' }}" href="{{ path('app_index', {categoryName: category.name}) }}">{{ category.name }}</a></li>
+      {% endfor %}
     </ul>
     <div class="d-md-flex my-2 my-lg-0">
       <a class="btn btn-outline-warning mr-2 w-100 mb-3 mb-sm-0" title="Categories manager" href="{{ path('app_category_list') }}">
         Categories
       </a>
-      <a class="btn btn-outline-warning mr-2 w-100" title="Add bookmark" href="{{ path('app_category_create') }}">
+      <a class="btn btn-outline-warning mr-2 w-100" title="Add bookmark" href="{{ path('app_bookmark_new') }}">
         <span class="oi oi-plus" title="Add" aria-hidden="true"></span>
       </a>
     </div>

@@ -34,6 +34,9 @@ class Bookmark
     #[ORM\Column(type: 'datetime')]
     private $created_at;
 
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private $favorite;
+
     #[ORM\PrePersist]
     public function setDefaultCreatedValue(): void
     {
@@ -89,6 +92,18 @@ class Bookmark
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getFavorite(): ?bool
+    {
+        return $this->favorite;
+    }
+
+    public function setFavorite(?bool $favorite): self
+    {
+        $this->favorite = $favorite;
 
         return $this;
     }
