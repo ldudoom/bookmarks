@@ -1,0 +1,33 @@
+{% set total_pages = (total_items / items_per_page)|round(0,'ceil') %}
+{% set params = route_params is defined ? route_params : {} %}
+{% set route_name = route_name is defined ? route_name : app.request.attributes.get('_route') %}
+
+{% if(total_pages > 1) %}
+    <nav>
+        <ul class="page nav">
+
+            <li class="page-item {{ page == 1 ? 'disabled' }}">
+                <a class="page-link" href="{{ path(route_name, {categoryName: categoryName, page: page - 1 < 1 ? 1 : page - 1}|merge(params)) }}">
+                    <span>&laquo;</span>
+                    <span>Ant</span>
+                </a>
+            </li>
+
+            {% for i in 1..total_pages %}
+                <li class="page-item {{ page == i ? 'active' }}">
+                    <a class="page-link" href="{{ path(route_name, {categoryName: categoryName, page: i}|merge(params)) }}">
+                        <span>{{ i }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+
+            <li class="page-item {{ page == total_pages ? 'disabled' }}">
+                <a class="page-link" href="{{ path(route_name, {categoryName: categoryName, page: page + 1 <= total_pages ? page + 1 : page}|merge(params)) }}">
+                    <span>&raquo;</span>
+                    <span>Next</span>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+{% endif %}

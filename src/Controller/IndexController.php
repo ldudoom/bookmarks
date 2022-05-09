@@ -15,6 +15,7 @@ class IndexController extends AbstractController
 {
     protected CategoryRepository $_categoryRepository;
     protected BookmarkRepository $_bookmarkRepository;
+    public const ITEMS_PER_PAGE = 10;
 
     public function __construct(CategoryRepository $categoryRepository, BookmarkRepository $bookmarkRepository)
     {
@@ -50,21 +51,28 @@ class IndexController extends AbstractController
         return  $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{categoryName}', name: 'app_index', defaults: ['categoryName' => ''])]
-    public function index(string $categoryName): Response
+    #[Route('/{page}/{categoryName}', name: 'app_index', defaults: ['categoryName' => '', 'page' => 1])]
+    public function index(int $page = 1, string $categoryName): Response
     {
         if($categoryName){
             $category = $this->_categoryRepository->findOneBy(['name' => $categoryName]);
             if($category instanceof Category){
-                $bookmarks = $this->_bookmarkRepository->findBy(['category' => $category->getId()]);
+                $bookmarks = $this->_bookmarkRepository->findBy(['category' => $category->getId()], ['name' => 'asc'], self::ITEMS_PER_PAGE, ($page-1)*self::ITEMS_PER_PAGE);
+                $allBookmarks = $this->_bookmarkRepository->count(['category' => $category->getId()]);
             }else{
-                $bookmarks = $this->_bookmarkRepository->findAll();
+                $bookmarks = $this->_bookmarkRepository->findBy([], ['name' => 'asc'], self::ITEMS_PER_PAGE, ($page-1)*self::ITEMS_PER_PAGE);
+                $allBookmarks = $this->_bookmarkRepository->count([]);
             }
         }else{
-            $bookmarks = $this->_bookmarkRepository->findAll();
+            $bookmarks = $this->_bookmarkRepository->findBy([], ['name' => 'asc'], self::ITEMS_PER_PAGE, ($page-1)*self::ITEMS_PER_PAGE);
+            $allBookmarks = $this->_bookmarkRepository->count([]);
         }
         return $this->render('index/index.html.twig', [
             'bookmarks' => $bookmarks,
+            'items_per_page' => self::ITEMS_PER_PAGE,
+            'total_items' => $allBookmarks,
+            'page' => $page,
+            'categoryName' => $categoryName,
         ]);
     }
 }

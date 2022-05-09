@@ -54,6 +54,14 @@
                 <strong class="text-gray-dark">There are no bookmarks yet !</strong>
             </div>
         {% endfor %}
+        <div class="mt-3 mb-3">
+            {{ include('commons/_pagination.html.twig', {
+                'items_per_page': items_per_page is defined ? items_per_page : 1,
+                'total_items': total_items is defined ? total_items : 1,
+                'page': page is defined ? page : 1,
+                'categoryName': categoryName is defined ? categoryName : ''
+            }) }}
+        </div>
   </div>
 {% endblock %}
 
