@@ -1,6 +1,116 @@
-controllers:
-    resource: ../src/Controller/
-    type: annotation
+# Categories Routes
+app_category_list:
+    path:       /category/list
+    controller: App\Controller\CategoryController::index
+    methods:    GET|POST
+
+app_category_create:
+    path:       /category/create
+    controller: App\Controller\CategoryController::create
+    methods:    GET|HEAD
+
+app_category_store:
+    path: /category/store
+    controller: App\Controller\CategoryController::store
+    methods: POST
+
+app_category_edit:
+    path: /category/edit/{category}
+    controller: App\Controller\CategoryController::edit
+    methods: GET|HEAD
+
+app_category_update:
+    path: /category/update/{category}
+    controller: App\Controller\CategoryController::update
+    methods: POST|PUT|PATCH
+
+app_category_show:
+    path: /category/show/{category}
+    controller: App\Controller\CategoryController::show
+    methods: GET|HEAD
+
+app_category_destroy:
+    path: /category/destroy/{category}
+    controller: App\Controller\CategoryController::destroy
+    methods: DELETE|POST
+# End Categories Routes
+
+# Bookmarks Routes
+app_bookmark_index:
+    path: /bookmark
+    controller: App\Controller\BookmarkController::index
+    methods: GET|HEAD
+
+app_bookmark_new:
+    path: /bookmark/new
+    controller: App\Controller\BookmarkController::new
+    methods: GET|HEAD|POST
+
+app_bookmark_show:
+    path: /bookmark/{id}
+    controller: App\Controller\BookmarkController::show
+    methods: GET|HEAD
+
+app_bookmark_edit:
+    path: /bookmark/{id}/edit
+    controller: App\Controller\BookmarkController::edit
+    methods: GET|POST|PUT|PATCH
+
+app_bookmark_delete:
+    path: /bookmark/{id}
+    controller: App\Controller\BookmarkController::delete
+    methods: DELETE|POST
+# End Bookmarks Routes
+
+# Tags Routes
+app_tag_index:
+    path: /tag
+    controller: App\Controller\TagController::index
+    methods: GET|HEAD
+
+app_tag_new:
+    path: /tag/new
+    controller: App\Controller\TagController::new
+    methods: GET|HEAD|POST
+
+app_tag_show:
+    path: /tag/{id}
+    controller: App\Controller\TagController::show
+    methods: GET|HEAD
+
+app_tag_edit:
+    path: /tag/{id}/edit
+    controller: App\Controller\TagController::edit
+    methods: GET|POST|PUT|PATCH
+
+app_tag_delete:
+    path: /tag/{id}
+    controller: App\Controller\TagController::delete
+    methods: DELETE|POST
+# End Tags Routes
+
+
+# Index Routes
+app_favorites:
+    path: /favorites
+    controller: App\Controller\IndexController::favorites
+    methods: GET|HEAD|POST
+
+app_edit_favorite:
+    path: /add-remove-favorite/{bookmark}
+    controller: App\Controller\IndexController::addEditFavorite
+    methods: GET|HEAD|POST|PUT|PATCH
+
+app_index:
+    path: /{page}/{categoryName}
+    controller: App\Controller\IndexController::index
+    methods: GET|HEAD|POST|PUT|PATCH
+    defaults:
+        page: 1
+        categoryName: ''
+    requirements:
+        page: '\d+'
+# End Index Routes
 
 kernel:
     resource: ../src/Kernel.php

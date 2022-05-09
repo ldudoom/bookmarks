@@ -23,7 +23,6 @@ class IndexController extends AbstractController
         $this->_bookmarkRepository = $bookmarkRepository;
     }
 
-    #[Route('/favorites', name: 'app_favorites')]
     public function favorites()
     {
         return $this->render('index/index.html.twig', [
@@ -35,7 +34,7 @@ class IndexController extends AbstractController
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\ORMException
      */
-    #[Route('/add-remove-favorite/{bookmark}', name: 'app_edit_favorite')]
+
     public function addEditFavorite(Bookmark $bookmark, Request $request)
     {
         $bookmark->setFavorite( ! $bookmark->getFavorite());
@@ -51,7 +50,6 @@ class IndexController extends AbstractController
         return  $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{page}/{categoryName}', name: 'app_index', defaults: ['categoryName' => '', 'page' => 1])]
     public function index(int $page = 1, string $categoryName): Response
     {
         if($categoryName){

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Tag{% endblock %}
+
+{% block main_container %}
+    <h1>Edit Tag</h1>
+    {% include 'commons/_messages.html.twig' %}
+    {{ include('tag/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a class="btn btn-outline-primary" href="{{ path('app_tag_index') }}">
+        <i class="oi oi-chevron-left"></i> back to list
+    </a>
+
+    {{ include('tag/_delete_form.html.twig') }}
+{% endblock %}

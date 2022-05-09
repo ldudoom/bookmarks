@@ -10,10 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/bookmark')]
 class BookmarkController extends AbstractController
 {
-    #[Route('/', name: 'app_bookmark_index', methods: ['GET'])]
     public function index(BookmarkRepository $bookmarkRepository): Response
     {
         return $this->render('bookmark/index.html.twig', [
@@ -21,7 +19,6 @@ class BookmarkController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_bookmark_new', methods: ['GET', 'POST'])]
     public function new(Request $request, BookmarkRepository $bookmarkRepository): Response
     {
         $bookmark = new Bookmark();
@@ -40,7 +37,6 @@ class BookmarkController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_bookmark_show', methods: ['GET'])]
     public function show(Bookmark $bookmark): Response
     {
         return $this->render('bookmark/show.html.twig', [
@@ -48,7 +44,6 @@ class BookmarkController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_bookmark_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Bookmark $bookmark, BookmarkRepository $bookmarkRepository): Response
     {
         $form = $this->createForm(BookmarkType::class, $bookmark);
@@ -66,7 +61,6 @@ class BookmarkController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_bookmark_delete', methods: ['POST'])]
     public function delete(Request $request, Bookmark $bookmark, BookmarkRepository $bookmarkRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$bookmark->getId(), $request->request->get('_token'))) {

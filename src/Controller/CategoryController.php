@@ -11,7 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use App\Repository\CategoryRepository;
 
-#[Route('/category')]
 class CategoryController extends AbstractController
 {
     protected CategoryRepository $_category;
@@ -23,7 +22,6 @@ class CategoryController extends AbstractController
         $this->_entityManager = $entityManager;
     }
 
-    #[Route('/list', name: 'app_category_list', methods: ['GET', 'POST'])]
     public function index(): Response
     {
         return $this->render('category/index.html.twig', [
@@ -31,7 +29,6 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/create', name: 'app_category_create', methods: ['GET'])]
     public function create(): Response
     {
         return $this->render('category/create.html.twig');
@@ -41,7 +38,6 @@ class CategoryController extends AbstractController
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\ORMException
      */
-    #[Route('/store', name: 'app_category_store', methods: ['POST'])]
     public function store(Request $request): Response
     {
         if(  ! $this->isCsrfTokenValid('category', $request->request->get('_token')) ){
@@ -56,7 +52,6 @@ class CategoryController extends AbstractController
         return $this->redirectToRoute('app_category_list', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/edit/{category}', name: 'app_category_edit', methods: ['GET'])]
     public function edit(Category $category): Response
     {
         return $this->render('category/edit.html.twig', [
@@ -68,7 +63,6 @@ class CategoryController extends AbstractController
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\ORMException
      */
-    #[Route('/update/{category}', name: 'app_category_update', methods: ['PUT', 'PATCH', 'POST'])]
     public function update(Request $request, Category $category): Response
     {
         if(  ! $this->isCsrfTokenValid('category', $request->request->get('_token')) ){
@@ -82,7 +76,7 @@ class CategoryController extends AbstractController
         return $this->redirectToRoute('app_category_list', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/show/{category}', name: 'app_category_show', methods: ['GET'])]
+
     public function show(Category $category): Response
     {
         return $this->render('category/show.html.twig', [
@@ -94,7 +88,6 @@ class CategoryController extends AbstractController
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\ORMException
      */
-    #[Route('/destroy/{category}', name: 'app_category_destroy', methods: ['DELETE', 'POST'])]
     public function destroy(Category $category): Response
     {
         $this->_category->remove($category);
